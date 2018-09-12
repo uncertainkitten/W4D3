@@ -9,6 +9,27 @@
   </head>
 
   <body>
-    <%= yield %>
+  <% if logged_in? %>
+    <h2>Welcome back, CAT LOVER <%=current_user.user_name %>!</h2>
+
+    <form action=" <%= session_url %>" method="post">
+      <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+      <input type="hidden" name="_method" value="delete">
+      <input type="submit" name="" value="GET OUT OF HERE :(">
+    </form>
+    <% else %>
+      <a href="<%= new_session_url %>">SIGN IN!</a>
+      <a href="<%= new_user_url %>">JOIN 99CATS NOW!!!!!</a>
+    <% end %>
+
+  <% if flash[:errors] %>
+    <% flash[:errors].each do |error| %>
+    <ul><li><%= error%></li></ul>
+    <% end %>
+  <% end %>
+
+
+
+  <%= yield %>
   </body>
 </html>
