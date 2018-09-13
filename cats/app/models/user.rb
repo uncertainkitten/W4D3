@@ -17,6 +17,10 @@ class User < ApplicationRecord
   after_initialize :ensure_session_token
   attr_reader :password
 
+  has_many :cats,
+    class_name: :Cat,
+    foreign_key: :user_id
+
   def password=(password)
     @password = password
     self.password_digest = BCrypt::Password.create(password)
@@ -28,7 +32,7 @@ class User < ApplicationRecord
 
   def self.find_by_credentials(user_name, password)
     user = User.find_by(user_name: user_name)
-    user && user.is_password?(password) ? user : nil 
+    user && user.is_password?(password) ? user : nil
   end
 
   def ensure_session_token
